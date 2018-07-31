@@ -1,0 +1,13 @@
+*~
+*.o
+run_speedtest
+*.a
+*.log
+*.swp
+*.pyc
+*.pdf
+.DS*
+*.txt
+*.bk
+*.csv
+log/*
