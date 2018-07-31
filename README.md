@@ -49,9 +49,10 @@ $ sudo service ModemManager stop
 ### Step 2: 
 ```
 $ sudo cp -v conf/zzz-zz-buildtable /etc/dhcp/dhclient-enter-hooks.d/zzz-zz-buildtable
-$ sudo cp -v conf/dhclient.conf /etc/dhcp/dhclient.conf
+$ sudo cp -v conf/dhclient.conf /etc/dhcp/vnperf-dhclient.conf
 $ ./scripts/build_rttables.sh register
-$ sudo mkdir -v /etc/vnperf /etc/vnperf_control
+$ sudo mkdir -v /etc/vnperf /etc/vnperf_control /etc/vnperf/
+$ sudo cp -rv scripts /etc/vnperf/scripts
 $ sudo chown $(whoami):$(whoami) /etc/vnperf && cd /etc/vnperf
 $ touch usb0.stat usb1.stat wlan1.stat
 ```

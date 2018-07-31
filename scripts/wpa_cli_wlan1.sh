@@ -9,7 +9,7 @@ case "$2" in
       notify-send -t 1 "WPA supplicant: connection established";
 
       # $1 is network inteface
-      sudo dhclient -4 -cf /home/josephlee/vnperf/conf/dhclient.conf -v $1
+      sudo dhclient -4 -cf /etc/dhcp/vnperf-dhclient.conf -v $1
 
       # kill old dhcp...
       echo "my pid ... $$"
