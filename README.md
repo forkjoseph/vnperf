@@ -28,7 +28,8 @@ count, timestamp, mph, latitude, longitude, bz_vz, bz_sp, bz_w1, ec_vz, ec_sp, e
 ```
 where ```bz``` and ```ec``` stand for ```brazos``` server in UMich and ```AWS
 EC2``` server in Ohio, respectively.  ```vz``` and ```sp``` stand for Verizon
-and Sprint cellular networks.
+and Sprint cellular networks. Note that traces in ```traces/``` folder omit
+count and timestamp.
 
 ***
 
