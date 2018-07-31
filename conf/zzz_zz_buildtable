@@ -1,0 +1,61 @@
+# Put this file in /etc/dhcp/dhclient-enter-hooks.d/zzz-zz-buildtable
+# To enable this script set the following variable to "yes"
+RUN="yes"
+LOGFILE="/tmp/dhclient-script.debug"
+VNPERF_DIR="/home/josephlee/vnperf"
+STAT_DIR="/etc/vnperf"
+
+if [ "$RUN" = "yes" ]; then
+  DUMP="no"
+	case "$reason" in
+			BOUND|RENEW|REBIND|REBOOT)
+        DUMP="yes"
+      ;;
+  esac
+
+  if [ "$DUMP" = "yes" ]; then
+    echo "$(date): entering ${1%/*}, dumping variables." >> "$LOGFILE"
+  fi
+
+	case "$reason" in
+			BOUND|RENEW|REBIND|REBOOT)
+        echo "${interface};${reason};[old,${old_ip_address},${new_network_number},${new_subnet_mask},${new_routers}];[new,${new_ip_address},${new_network_number},${new_subnet_mask},${new_routers}]" > "$STAT_DIR/${interface}".stat
+
+        if [ "$interface" = "wlan1" ]; then # opwifi
+          echo "connected to ENwifi ($(iwgetid wlan1 -r ))" >> "$LOGFILE"
+        elif [ "$interface" = "wlan0" ]; then # enterwifi
+          echo "connected to OPwifi ($(iwgetid wlan0 -r ))" >> "$LOGFILE"
+        else
+          echo "connected to ${interface}" >> "$LOGFILE"
+        fi
+        bash "$VNPERF_DIR"/scripts/build_rttable.sh "${interface}" "${new_ip_address}" "${new_network_number}" "${new_subnet_mask}" "${new_routers}"
+        ;;
+	esac
+
+  # if [ "$DUMP" = "yes" ]; then
+  if [ "$reason" != "PREINIT" ]; then
+    echo "${interface};${reason};[old,${old_ip_address},${new_network_number},${new_subnet_mask},${new_routers}];[new,${new_ip_address},${new_network_number},${new_subnet_mask},${new_routers}]" > /etc/vnperf/"${interface}".stat
+    # loop over the 4 possible prefixes: (empty), cur_, new_, old_
+    for prefix in '' 'cur_' 'new_' 'old_'; do
+      # loop over the DHCP variables passed to dhclient-script
+      for basevar in reason interface medium alias_ip_address \
+               ip_address host_name network_number subnet_mask \
+               broadcast_address routers static_routes \
+               rfc3442_classless_static_routes \
+               domain_name domain_search domain_name_servers \
+               netbios_name_servers netbios_scope ntp_servers; do
+        var="${prefix}${basevar}"
+        eval "content=\$$var"
+
+        # show only variables with values set
+        if [ -n "${content}" ]; then
+          echo "$var =>'${content}'" >> "$LOGFILE"
+        fi
+      done
+    done
+  fi
+
+  if [ "$DUMP" = "yes" ]; then
+    echo '----------------------------------------------------' >> "$LOGFILE"
+  fi
+fi

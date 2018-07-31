@@ -1,0 +1,34 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# example network interface setup used in RAVEN
+#  in /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+# allow-hotplug wlan1
+# iface wlan1 inet manual
+#   metric 110
+
+# auto wlan1
+#   iface wlan1 inet dhcp 
+#   metric 120
+
+# Verizon Novatel USB770L
+allow-hotplug usb0 
+iface usb0 inet dhcp
+  metric 210
+  dns-nameservers 8.8.8.8 8.8.4.4 141.213.4.4 141.212.113.4
+
+# Sprint Franklin 700 
+allow-hotplug usb1
+iface usb1 inet static
+  address 192.168.10.2
+  netmask 255.255.255.0
+  gateway 192.168.10.1
+  metric 220
+  dns-nameservers 8.8.8.8 8.8.4.4 141.213.4.4 141.212.113.4 192.168.10.1
+  up    ip route add 192.168.10.0/24 dev $IFACE src 192.168.10.2 table "sprint" metric 220
+  down  ip route del 192.168.10.0/24 dev $IFACE src 192.168.10.2 table "sprint" metric 220
+  up    ip route add default via 192.168.10.1 dev $IFACE table "sprint"
+  down  ip route del default via 192.168.10.1 dev $IFACE table "sprint"
+  up    ip rule add from 192.168.10.2 table "sprint"
+  down  ip rule del from 192.168.10.2 table "sprint"
