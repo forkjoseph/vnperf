@@ -9,5 +9,4 @@ run_speedtest
 .DS*
 *.txt
 *.bk
-*.csv
 log/*
