@@ -70,6 +70,11 @@ $ ./server.py
 $ sudo ./vnperf.py -t [IP] -i wlan1 -i usb0 -i usb1 -D -I 0.25
 ```
 
+
+## Contribution
+VNperf tool is maintained by HyunJong (Joseph) Lee, Jason Flinn from University of
+Michigan.
+
 ## License
 All source code, documentation, and related artifacts associated with the
 cloudlet open source project are licensed under the [Apache License, Version
