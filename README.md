@@ -17,12 +17,17 @@ For location and vehicle data, we used following hardwares:
 
 
 ## Trace Format
-Trace is saved in CSV file format to be easily loaded as DataFrame later for
-parsing.  Each column contains:
-* UNIX timestamp
-* Speed of vehicle (in MPH) via OBD2
-* Location of vehicle (in lat & lon) via external GPS module
-* RTT```s``` to server```s``` (yes, plurals) 
+Each trace has 6 columns by default. 
+* mph: Speed of vehicle
+* lat: Latitude
+* lon: Longitude
+* bz_vz: RTT over Verizon to Brazos server
+* bz_sp: RTT over Sprint to Brazos server
+* bz_w1: RTT over XFinityWiFi to Brazos server
+
+Note that **-1** means the measurement was **unavailable** (i.e., no signal,
+previous 5 measurements have not been completed, etc).
+
 
 CSV is formated as following:
 ```
