@@ -1,4 +1,4 @@
-mph,lat,lon,bz_vz,bz_sp,bz_w1
+vehiclespeed,latitude,longitude,verizon,sprint,xfinitywifi
 0.0,42.279843,-83.740845,61.332,135.101,35.675
 0.0,42.279843,-83.740845,93.203,120.709,69.783
 0.0,42.279843,-83.740845,94.105,124.397,36.246
