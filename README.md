@@ -1,6 +1,10 @@
-# VNperf: Vehicular Network performance measurement tool
-
 # This RAEDME.md is still under construction!!!
+# VNperf: Vehicular Network performance measurement tool
+VNperf is a tool that 
+iperf is a tool for active measurements of the maximum achievable bandwidth on
+IP networks. It supports tuning of various parameters related to timing,
+protocols, and buffers. For each test it reports the measured throughput /
+bitrate, loss, and other parameters.
 
 ## Testbed Platform
 We have tested VNperf on **Dell XPS 13 Developer** laptop running **Ubuntu16.04
@@ -19,7 +23,11 @@ For location and vehicle data, we used following hardwares:
 
 
 ## Setup
-VNperf does not use Network-manager. Uses plain wpa_supplicant and dhclient for network configuration.
+VNperf is purely written in python. Therefore, setting up python-2.7 and pip
+install mandatory. Also, in Ubuntu environment, VNperf does not use
+Network-manager. Instead, VNperf uses plain wpa_supplicant and dhclient for
+wireless WPA configuration due to slow passive scanning threshold in
+Network-manager in Ubuntu.
 
 ### Step 1: stop all Ubuntu default network manager
 ```
@@ -67,9 +75,18 @@ $ ./server.py
 
 ### Step 6: run VNperf on laptop
 ```
-$ sudo ./vnperf.py -t [IP] -i wlan1 -i usb0 -i usb1 -D -I 0.25
+$ sudo ./vnperf.py -t [IP] -i wlan1 -i usb0 -i usb1 -D -I 0.25 -o log.csv
 ```
 
+## Study
+VNperf tool is developed and utilized for paper, [RAVEN: Improving
+Interactive Latency for the Connected
+Car](http://leelabs.org/pubs/mobicom18_raven.pdf).
+
+## Troubleshooting
+First, [check this doc](TROUBLESHOOTING.md). If you cannot resolve the issue,
+you can either open the issue in Github or please feel free to reach out to us.
+The contact info is at [here](http://leelabs.org/contact).
 
 ## Contribution
 VNperf tool is maintained by HyunJong (Joseph) Lee, Jason Flinn from University of
