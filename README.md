@@ -1,26 +1,28 @@
 # This RAEDME.md is still under construction!!!
+
 # VNperf: Vehicular Network performance measurement tool
-VNperf is a tool that 
-iperf is a tool for active measurements of the maximum achievable bandwidth on
-IP networks. It supports tuning of various parameters related to timing,
-protocols, and buffers. For each test it reports the measured throughput /
-bitrate, loss, and other parameters.
+VNperf is a tool for active measurements of network latency (RTT) on
+vehicular/mobile networks. It supports tuning various parameters for network
+interfaces, timing, threshold to declare network unavailability.  For each test,
+it reports network RTT over multiple networks measured simultaneously along with
+useful vehicular data such as speed and location.
 
 ## Testbed Platform
 We have tested VNperf on **Dell XPS 13 Developer** laptop running **Ubuntu16.04
-LTS 64bit**. 
+LTS 64bit**. In theory, any Debian-distro with reasonable hardware should works;
+we have not tested on other platforms.
 
 For network interfaces, we have tested with three networks:
 * usb0: Verizon Wireless MiFi U620L
 * usb1: Franklin U772 USB Modem 
 * wlan1: TP-LINK T4U v2
 
-For location and vehicle data, we used following hardwares:
-* GPS: GlobalSat BU353-S4 USB GPS Receiver
-* OBD2: HDE ELM 327 
+For location and vehicle data, we used following hardware:
+* OBD-II: HDE ELM 327 ([on Amazon](https://www.amazon.com/Outzone-Scanner-Diagnostic-Automotive-Interface/dp/B07CZZYVRF)).
+* GPS: GlobalSat BU353-S4 USB GPS Receiver ([on Amazon](https://www.amazon.com/GlobalSat-BU-353-S4-USB-Receiver-Black/dp/B008200LHW)).
+
 
 ************
-
 
 ## Setup
 VNperf is purely written in python. Therefore, setting up python-2.7 and pip
@@ -78,10 +80,11 @@ $ ./server.py
 $ sudo ./vnperf.py -t [IP] -i wlan1 -i usb0 -i usb1 -D -I 0.25 -o log.csv
 ```
 
-## Study
+## Trace Analysis
 VNperf tool is developed and utilized for paper, [RAVEN: Improving
-Interactive Latency for the Connected
-Car](http://leelabs.org/pubs/mobicom18_raven.pdf).
+Interactive Latency for the Connected Car](https://goo.gl/JNgHDu).
+A brief summary of trace analysis is available
+[here](https://github.com/forkjoseph/vnperf/tree/master/traces#summary-of-traces)).
 
 ## Troubleshooting
 First, [check this doc](TROUBLESHOOTING.md). If you cannot resolve the issue,

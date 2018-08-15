@@ -59,7 +59,7 @@ $ git clone https://gist.github.com/4dec208e28b36ce554d43c8653123050.git maps/
 $ mv maps/*.html .
 $ python -m SimpleHTTPServer
 # open your favorite web browser
-# http://localhost:8080
+# goto http://localhost:8080 
 ```
 
 ## License
