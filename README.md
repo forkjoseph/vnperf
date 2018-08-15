@@ -4,7 +4,7 @@
 VNperf is a tool for active measurements of network latency (RTT) on
 vehicular/mobile networks. It supports tuning various parameters for network
 interfaces, timing, threshold to declare network unavailability.  For each test,
-it reports network RTT over multiple networks measured simultaneously along with
+it reports network RTT(s) over multiple networks measured simultaneously along with
 useful vehicular data such as speed and location.
 
 ## Testbed Platform
@@ -25,11 +25,11 @@ For vehicle and location data, we used following hardwares:
 ************
 
 ## Setup
-VNperf is purely written in python. Therefore, setting up python-2.7 and pip
-install mandatory. Also, in Ubuntu environment, VNperf does not use
-Network-manager. Instead, VNperf uses plain wpa_supplicant and dhclient for
-wireless WPA configuration due to slow passive scanning threshold in
-Network-manager in Ubuntu.
+VNperf is purely written in python. Therefore, setting up python-2.7 and
+installing pip are mandatory.
+Also, in Ubuntu environment, VNperf does not use Network-manager. Instead,
+VNperf uses plain wpa_supplicant and dhclient for wireless WPA configuration due
+to slow passive scanning threshold in Network-manager in Ubuntu.
 
 ### Step 1: stop all Ubuntu default network manager
 ```
@@ -41,7 +41,7 @@ $ sudo service supervisor stop
 $ sudo service ModemManager stop
 ```
 
-### Step 2: 
+### Step 2: setup WPA supplicant for multi-routing
 ```
 $ sudo cp -v conf/zzz-zz-buildtable /etc/dhcp/dhclient-enter-hooks.d/zzz-zz-buildtable
 $ sudo cp -v conf/dhclient.conf /etc/dhcp/vnperf-dhclient.conf
@@ -75,9 +75,14 @@ $ sudo dhclient -d usb0 -v -cf vnperf/conf/dhclient_usb0.conf usb0
 $ ./server.py
 ```
 
-### Step 6: run VNperf on laptop
+### Step 6: install python dependencies for VNperf client
 ```
-$ sudo ./vnperf.py -t [IP] -i wlan1 -i usb0 -i usb1 -D -I 0.25 -o log.csv
+$ pip install requirement.txt
+```
+
+### Step 7: run VNperf on client laptop!
+```
+$ sudo ./vnperf.py -t [SERVER_IP] -i wlan1 -i usb0 -i usb1 -I 0.25 -o log.csv
 ```
 
 ## Trace Analysis
