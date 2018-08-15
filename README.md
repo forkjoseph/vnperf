@@ -12,12 +12,11 @@ We have tested VNperf on **Dell XPS 13 Developer** laptop running **Ubuntu16.04
 LTS 64bit**. In theory, any Debian-distro with reasonable hardware should works;
 we have not tested on other platforms.
 
-For network interfaces, we have tested with three networks:
-* usb0: Verizon Wireless MiFi U620L
-* usb1: Franklin U772 USB Modem 
-* wlan1: TP-LINK T4U v2
-
-For location and vehicle data, we used following hardware:
+For network interfaces, we have tested with three hardwares:
+* Verizon - MiFi U620L
+* Sprint - Franklin U772 USB Modem 
+* XFinityWiFi - TP-LINK T4U v2 w/ monthly hotspot subscription ([link](https://www.xfinity.com/support/articles/about-xfinity-wifi-internet))
+For vehicle and location data, we used following hardwares:
 * OBD-II: HDE ELM 327 ([on Amazon](https://www.amazon.com/Outzone-Scanner-Diagnostic-Automotive-Interface/dp/B07CZZYVRF)).
 * GPS: GlobalSat BU353-S4 USB GPS Receiver ([on Amazon](https://www.amazon.com/GlobalSat-BU-353-S4-USB-Receiver-Black/dp/B008200LHW)).
 
@@ -81,10 +80,10 @@ $ sudo ./vnperf.py -t [IP] -i wlan1 -i usb0 -i usb1 -D -I 0.25 -o log.csv
 ```
 
 ## Trace Analysis
-VNperf tool is developed and utilized for paper, [RAVEN: Improving
+VNperf tool is developed and utilized for MobiCom'18 paper, [RAVEN: Improving
 Interactive Latency for the Connected Car](https://goo.gl/JNgHDu).
 A brief summary of trace analysis is available
-[here](https://github.com/forkjoseph/vnperf/tree/master/traces#summary-of-traces)).
+[here](https://github.com/forkjoseph/vnperf/tree/master/traces#summary-of-traces).
 
 ## Troubleshooting
 First, [check this doc](TROUBLESHOOTING.md). If you cannot resolve the issue,
