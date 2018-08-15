@@ -5,13 +5,31 @@
 We have collected traces of wireless network quality for two cellular networks
 (Sprint and Verizon) and commercial WiFi hotspot (XFinityWiFi) in four
 representative driving scenarios (in downtown, highway, rural, and suburban
-areas). 
+areas).  
 
+For trace collection, we configured VNperf to measure every 1 second
+interval to measure.
+We also configured VNperf to declare that latencies of over 5 seconds represent
+periods where more than 5 measurements have not been completed. We found that
+for WiFi hotspot, this is common problem because XFinityWiFi supports seamless
+WiFi that queues packets from one AP when device is disconnected and deliver
+to another AP when reconnected. Periods of network unavailability appear to be
+intervals that exhibit extremely high latency.
 
-We collected fo
-We collected four traces using VNperf that simultaneously measures network
-quality over multiple wireless networks. VNperf
+For WPA authentication, XFinityWiFi driver handles WiFi-roaming based on network
+interface's MAC address. When more than one access points (APs) are available,
+we configured WPA supplicant to associate the one with the highest signal
+strength. We noticed that DHCP sometimes incorrectly triggers when the
+interface has not been associated with any AP for more than 5 minutes. So, we
+used DHCP enter-hook to detect new gateways at every WPA association.
 
+We collected traces in October 2017, each ranging from 40-62 minutes in length.
+Trace D1 was collected driving through the downtown areas of Ann Arbor, MI
+(population approximately 120,000 and metro area population approximately
+350,000).  Trace D2 was collected solely on interstate highway driving,
+primarily but not exclusively through rural areas.  Trace D3 was collected on
+rural roads in sparsely-populated areas.  Trace D4 was collected in suburban
+locations that included neighborhoods, subdivisions, and secondary roads. 
 
 ## Summary of traces
 The following is a shortened summary of trace analysis.  Details of study is
