@@ -16,6 +16,7 @@ For network interfaces, we have tested with three hardwares:
 * Verizon - MiFi U620L
 * Sprint - Franklin U772 USB Modem 
 * XFinityWiFi - TP-LINK T4U v2 w/ monthly hotspot subscription ([link](https://www.xfinity.com/support/articles/about-xfinity-wifi-internet))
+
 For vehicle and location data, we used following hardwares:
 * OBD-II: HDE ELM 327 ([on Amazon](https://www.amazon.com/Outzone-Scanner-Diagnostic-Automotive-Interface/dp/B07CZZYVRF)).
 * GPS: GlobalSat BU353-S4 USB GPS Receiver ([on Amazon](https://www.amazon.com/GlobalSat-BU-353-S4-USB-Receiver-Black/dp/B008200LHW)).
