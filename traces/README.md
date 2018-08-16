@@ -1,20 +1,28 @@
 # Vehicle-to-Infrastructure (V2I) Traces
+We have collected traces of wireless network quality for two cellular networks
+(Sprint and Verizon) and one commercial WiFi hotspot (XFinityWiFi) that has been
+deployed rapidly in densely-populated area.
+The traces are collected in four representative driving scenarios - downtown,
+highway, rural, and suburban areas - to measure wireless network quality in each
+of unique scenarios. 
+The traces were collected in October 2017 around Ann Arbor, each ranging from
+40-62 minutes length.
 
 
 ## Methodology
-We have collected traces of wireless network quality for two cellular networks
-(Sprint and Verizon) and commercial WiFi hotspot (XFinityWiFi) in four
-representative driving scenarios (in downtown, highway, rural, and suburban
-areas).  
-
 For trace collection, we configured VNperf to measure every 1 second
 interval to measure.
-We also configured VNperf to declare that latencies of over 5 seconds represent
-periods where more than 5 measurements have not been completed. We found that
-for WiFi hotspot, this is common problem because XFinityWiFi supports seamless
-WiFi that queues packets from one AP when device is disconnected and deliver
-to another AP when reconnected. Periods of network unavailability appear to be
-intervals that exhibit extremely high latency.
+We also configured VNperf to declare that latencies of over 5 seconds to
+represent blackout (**unavailable**) periods. We found that for WiFi hotspot,
+this is a common case because of low signal. We also found out that 
+XFinityWiFi supports seamless *WiFi-roaming* that queues packets from one AP
+when device is disconnected and deliver to another AP when reconnected. 
+Queued packets from one AP can later deliver over another AP at reconnection.
+To avoid previous queued packets affects latency of present measurements, VNperf
+logs **-1** to declare the network is unavailable or exhibits high latency, if
+more than 5 previous measurements have not been successfully completed.
+Thus, periods of network unavailability appear to be intervals that exhibit
+extremely high latency.
 
 For WPA authentication, XFinityWiFi driver handles WiFi-roaming based on network
 interface's MAC address. When more than one access points (APs) are available,
@@ -64,11 +72,13 @@ For each row, there are 6 columns:
 | sprint| RTT over Sprint|
 | xfinitywifi| RTT over XFinityWiFi|
 
-### Unavailable measurement
-Note that **-1** means the measurement was **unavailable** (i.e., no signal,
-previous 5 measurements have not been completed, etc).
+Each row contains measurements of Verizon, Sprint, and XFinityWiFi along with
+vehicle speed and location. As noted previously, we configured VNperf to measure
+at every 1 second interval to minimize external variables.
+For each scenario, the vehicle was driven without previously designed route to
+remove bias. However, the speed limit in each route was strictly enforced.
 
-## Visual Map 
+## Visual Route Map 
 Each map.d[1,2,3,4].html contains graphical overview of routes taken in each
 scenario around Ann Arbor. To view the map, 
 ```bash
