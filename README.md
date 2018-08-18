@@ -1,5 +1,3 @@
-# This RAEDME.md is still under construction!!!
-
 # VNperf: Vehicular Network performance measurement tool
 VNperf is a tool for active measurements of network latency (RTT) on
 vehicular/mobile networks. It supports tuning various parameters for network
@@ -99,6 +97,22 @@ The contact info is at [here](http://leelabs.org/contact).
 ## Contribution
 VNperf tool is maintained by HyunJong (Joseph) Lee, Jason Flinn from University of
 Michigan.
+
+## Reference
+HyunJong Lee, Jason Flinn, and Basavaraj Tonshal. *RAVEN: Improving
+Interactive Latency for the Connected Car*. In Proceedings of 24th Annual
+International Conference on Mobile Computing and Networking (*MobiCom*), 
+New Delhi, India, October-November 2018.
+```
+@inproceedings{Lee18:raven,
+  title     = {{RAVEN}: Improving Interactive Latency for the Connected Car},
+  author    = {Lee, HyunJong and Flinn, Jason and Tonshal, Basavaraj},
+  booktitle = {Proceedings of 24th Annual International Conference on Mobile Computing and Networking (MobiCom)},
+  month     = {October-November},
+  year      = {2018},
+  address   = {New Delhi, India},
+}
+```
 
 ## License
 All source code, documentation, and related artifacts associated with the
