@@ -6,8 +6,8 @@ it reports network RTT(s) over multiple networks measured simultaneously along w
 useful vehicular data such as speed and location.
 
 ## Testbed Platform
-We have tested VNperf on **Dell XPS 13 Developer** laptop running **Ubuntu16.04
-LTS 64bit**. In theory, any Debian-distro with reasonable hardware should works;
+We have tested VNperf on **Dell XPS 13 Developer** laptop running **Ubuntu 16.04
+LTS 64-bit**. In theory, any Debian-distro with reasonable hardware should works;
 we have not tested on other platforms.
 
 For network interfaces, we have tested with three hardwares:
