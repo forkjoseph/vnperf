@@ -90,6 +90,17 @@ $ python -m SimpleHTTPServer
 # goto http://localhost:8080 
 ```
 
+## Replay Traces in a Testbed
+Replay script emulates latency changing condition by replaying a selected trace
+in testbed.
+```bash
+# make sure you have Linux TC setup
+$ cd vnperf/traces
+$ python replay/replay.py public.d1_downtown.csv
+```
+
+#
+
 ## License
 All source code, documentation, and related artifacts associated with the
 cloudlet open source project are licensed under the [Apache License, Version
