@@ -1,7 +1,7 @@
 # VNperf: Vehicular Network performance measurement tool
 VNperf is a tool for active measurements of network latency (RTT) on
 vehicular/mobile networks. It supports tuning various parameters for network
-interfaces, timing, threshold to declare network unavailability.  For each test,
+interfaces, timing, and threshold to declare network unavailability.  For each test,
 it reports network RTT(s) over multiple networks measured simultaneously along with
 useful vehicular data such as speed and location.
 
