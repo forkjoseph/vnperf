@@ -1,0 +1,4 @@
+obd==0.6.1
+pyserial==3.4
+netifaces==0.10.6
+gps>=3.15

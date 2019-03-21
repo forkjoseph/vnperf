@@ -75,7 +75,7 @@ $ ./server.py
 
 ### Step 6: install python dependencies for VNperf client
 ```
-$ pip install requirement.txt
+$ pip install -r requirements.txt
 ```
 
 ### Step 7: run VNperf on client laptop!
