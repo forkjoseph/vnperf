@@ -13,10 +13,10 @@ $ lsmod | grep 'cdc\|usb\|rndis\|option\|hid'
 
 # Make sure to check no related modules loaded
 $ sudo modprobe -r usbhid rndis_host cdc_acm cdc_ether
-$ sudo usb_modswitch -v 1410 -p 9030 -u 2
+$ sudo usb_modeswitch -v 1410 -p 9030 -u 2
 
 # wait for a minute
-$ sudo usb_modswitch -v 1410 -p 9030 -u 1
+$ sudo usb_modeswitch -v 1410 -p 9030 -u 1
 ```
 
 ### Weird wireless interface namings
