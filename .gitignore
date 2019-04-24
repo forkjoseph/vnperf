@@ -10,3 +10,4 @@ run_speedtest
 *.txt
 *.bk
 log/*
+traces/map*.html
