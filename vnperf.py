@@ -2,40 +2,27 @@
 import os, sys, signal
 import copy
 import time
-
+from Queue import Queue
 from collections import OrderedDict
 from threading import Thread, Lock, Semaphore, RLock
-from Queue import Queue
-from multiprocessing import Process, Lock
 import multiprocessing.pool as mpp
-import multiprocessing
-
 # [CUSTOM] 
 from helper import *
 
 config = None
+server_order = load_servers()
+template = dict((e, None) for e in StaticConfig.elems)
+rtts = dict((e, {}) for e in StaticConfig.interface_order)
+wlandict = dict( (w, dict((e, 0) for e in server_order)) for w in ['wlan0', 'wlan1'])
 
-server_order = ['127.0.0.1', ] # '141.212.110.34', '141.212.110.236', '52.14.177.151']
-interface_order = ['usb0', 'usb1', 'wlan1', 'wlan0', 'eth0']
-
-elems = ['thread', 'thread_name', 'socket', 'ipaddr', 'interface', 'target',
-        'current_cnt', 'rttqueue',]
-template = dict((elem, None) for elem in elems)
-rtts = {'wlan0': {}, 'wlan1' : {}, 'usb0': {}, 'usb1': {}, 'eth0': {}, }
 global_m = []
 must_have = []
-# must_have = ['{:s}-{:s}'.format(intf, tg)
-#             for intf in interface_order for tg in server_order
-#             if intf in args.interfaces and tg in args.target_servers ]
 runs = {}
 pool = None
 infos = []
 logmonitor = None
 terminate = False
 is_terminated = False
-current_ap = {'wlan0': None, 'wlan1': None}
-wlandict = {'wlan0' : {'141.212.110.34': 0, '141.212.110.236': 0}, 
-        'wlan1': {'141.212.110.34': 0, '141.212.110.236': 0}}
 current_cnt = 0
 
 ###############################################################################
@@ -97,14 +84,11 @@ def rtt_worker(info):
             counter += 1
             if has_sent is False:
                 send_data = MESSAGE.format(cnt)
-                # if interface.startswith('wlan'):
-                #     if wlancnt > 4:
-                #         print 'deletig...!', name, wlancnt
-                #         del rtts[interface][name]
-                #         return
-                #     else:
-                #         with wlan1lock:
-                #             wlandict[interface][target] += 1
+                if interface.startswith('wlan'):
+                    if wlancnt > 4:
+                        print 'deletig...!', name, wlancnt
+                        del rtts[interface][name]
+                        return
                 sent = sck.send(send_data)
 
                 # print 'Has been sent', cnt, sent, ret
@@ -163,17 +147,7 @@ def rtt_worker(info):
             sck.close()
             raise e
     return ret
-
-def donedone(m):
-    # tup = m[0]
-    # cnt = tup['cnt']
-    # src = tup['interface']
-    # dst = tup['target']
-    # rtt = log_compute_delta(tup)
-    # print 'is ofo?', tup['ofo']
-    # print cnt, src, dst, rtt
-    # log_commit_at(at=cnt)
-    return
+def donedone(m): return
 
 ###############################################################################
 # Trace related [thread]
@@ -216,8 +190,7 @@ def log_monitor(rttqueue):
         cSize = rttqueue.qsize()
         if cSize == 0:
             sleep = config.INTERVAL * counter
-            # logging.debug('sleeping for %f' % sleep)
-            time.sleep(sleep) # exp. sleep
+            time.sleep(sleep)
             counter += 1 
             if is_terminated:
                 logging.info('terminated at %d' % current_cnt)
@@ -253,7 +226,7 @@ def log_monitor(rttqueue):
     logging.info('no more runs! [queue size %d, runs %d, current %d]' % \
             ( rttqueue.qsize(), expected_runs, current_cnt))
 
-# for sync...
+    ## for sync to global queue.
     while rttqueue.qsize() > 0:
         rtt = rttqueue.get()
         m = log_compute_delta(rtt)
@@ -272,7 +245,6 @@ def log_monitor(rttqueue):
             logging.error('errrrrrrrrrrrr %s' % (str(e)))
         runs[cnt] = obj
 
-    # if is_terminated is False:
     while is_terminated is False:
         print 'commiting log...!'
         log_commit()
@@ -346,7 +318,7 @@ def log_build_hdr():
     for target in sorted(config.targets, key=lambda x:
             server_order.index(x)):
         for inf in sorted(config.ifaces, key=lambda x:
-                interface_order.index(x)):
+                StaticConfig.interface_order.index(x)):
             naming = target_lookup[target] + '_' +interface_lookup[inf] 
             config.logfile.write(',' + naming)
     config.logfile.write('\n')
@@ -367,7 +339,8 @@ def log_print():
         keys = vals.keys()
         for check in must_have:
             if check not in keys:
-                vals[check] = -1.0 # not sure this is a good idea...
+                # -1 means never arrived.
+                vals[check] = -1.0 
         mcnt, ts, mph, lat, lon = global_m[cnt - 1]
         print_tmp = ', '.join('{:.3f}'.format(vals[name]) for name in must_have)
 
@@ -380,7 +353,6 @@ def log_print():
         if config.PWTEST_MODE:
             print_hdr += '{}, '.format(str(config.INTERVAL))
         print_tmp = print_hdr + print_tmp
-
         logging.info('%d, %s' % (mcnt, print_tmp))
     return
 
@@ -448,12 +420,6 @@ def main(rttqueue):
     pools = []
 
     for i in range(num_runs):
-        # if (i % 10000) == 0:
-        #     newpools = []
-        #     tmonitor = Thread(target=thread_monitor, args=(pools,),)
-        #     tmonitor.start()
-        #     pools = newpools 
-
         if (i % 60) == 0:
             pool = mpp.ThreadPool(processes=60,)
         current_cnt = i + 1
@@ -506,7 +472,7 @@ def init(LOG_GPS=True, LOG_OBD=True):
     init_logger()
     config = init_config(LOG_GPS, LOG_OBD)
     must_have = ['{:s}-{:s}'.format(intf, tg)
-                for intf in interface_order for tg in server_order
+                for intf in StaticConfig.interface_order for tg in server_order
                 if intf in config.ifaces and tg in config.targets]
     return
 

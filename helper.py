@@ -25,6 +25,11 @@ parser.add_argument('-D', '--debug', action='store_true')
 parser.add_argument('-P', '--powertest', action='store_true')
 args = parser.parse_args()
 
+class StaticConfig:
+    interface_order = ['usb0', 'usb1', 'usb2', 'wlan1', 'wlan0', 'eth0']
+    elems = ['thread', 'thread_name', 'socket', 'ipaddr', 'interface', 'target',
+            'current_cnt', 'rttqueue',]
+
 def dircheck(tmpdir):
     if not os.path.exists(tmpdir):
         os.makedirs(tmpdir)
@@ -190,4 +195,20 @@ def get_connected(interface, ipaddr, target):
         s = None
         raise e
     return s
+
+def load_servers(fname="targetservers.txt"):
+    import os.path
+    exists = os.path.isfile(fname) 
+    if exists is False:
+        raise Exception("You must define target servers!!")
+
+    server_order = []
+    with open(fname) as f:
+        lines = f.readlines()
+        for l in lines:
+            if l.startswith('#'): 
+                continue
+            l = l.strip()
+            server_order.append(l)
+    return server_order
 
